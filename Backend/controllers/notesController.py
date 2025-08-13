@@ -94,3 +94,22 @@ def update_note():
         return jsonify({"message": "Note updated successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+def delete_note():
+    data = request.get_json()
+    note_id = data.get("id")
+
+    if not note_id:
+        return jsonify({"error": "Note ID is required"}), 400
+
+    try:
+        conn = psycopg2.connect(config.DATABASE_URI)
+        cursor = conn.cursor()
+        cursor.execute("SELECT delete_note(%s);", (note_id,))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return jsonify({"message": "Note deleted successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
