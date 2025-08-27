@@ -57,10 +57,12 @@ def create_note():
         conn = psycopg2.connect(config.DATABASE_URI)
         cursor = conn.cursor()
         cursor.execute("select create_note(%s, %s);", (p_title, p_body))
+        new_id = cursor.fetchone()[0]
+
         conn.commit()
         cursor.close()
         conn.close()
-        return jsonify({"message": "Note created successfully"}), 201
+        return jsonify({"message": "Note created successfully", "id": new_id}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
