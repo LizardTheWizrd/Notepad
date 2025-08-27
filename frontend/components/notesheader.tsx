@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { FaArrowLeft } from "react-icons/fa";
 import { MdAddBox } from "react-icons/md";
 
@@ -9,9 +11,9 @@ const NotesHeader: React.FC<NotesHeaderProps> = ({ view }) => {
   return (
     <div className="flex flex-row justify-between w-[90%] h-[10%] md:w-[692px] border-8 border-transparent rounded-md bg-[#74FFE3] ">
       {view === "note" ? (
-        <div className="flex items-center justify-start pl-3 w-[20%]">
+        <Link href="/" className="flex items-center justify-start pl-3 w-[20%]">
           <FaArrowLeft size={30} color="black" />
-        </div>
+        </Link>
       ) : (
         <div className="w-[20%]" /> // empty space to keep layout consistent
       )}
@@ -21,11 +23,14 @@ const NotesHeader: React.FC<NotesHeaderProps> = ({ view }) => {
       </div>
 
       {view === "home" ? (
-        <div className="flex items-center justify-end pr-3 w-[20%]">
+        <Link
+          href="/note_editor/new"
+          className="flex items-center justify-end pr-3 w-[20%]"
+        >
           <MdAddBox size={30} color="black" />
-        </div>
+        </Link>
       ) : (
-        <div className="w-[20%]" /> // empty space to keep layout consistent
+        <div className="w-[20%]" />
       )}
     </div>
   );

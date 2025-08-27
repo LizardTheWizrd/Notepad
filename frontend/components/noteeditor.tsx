@@ -43,7 +43,7 @@ const NoteEditor = () => {
         const data = await createNote(text);
         setNoteId(data.id); // store new note ID → now updates will work
       } else {
-        updateNote(noteId, text);
+        await updateNote(noteId, text);
       }
     } catch (err) {
       console.error("Error saving note:", err);

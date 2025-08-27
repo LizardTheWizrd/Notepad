@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md";
 
 type Note = {
@@ -13,6 +14,7 @@ const NotesList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchNotes = async () => {
@@ -78,6 +80,7 @@ const NotesList = () => {
         notes.map((note, index) => (
           <div
             key={note.id}
+            onClick={() => router.push(`/note_editor/${note.id}`)}
             className={`flex flex-row flex-shrink-0 items-center justify-between w-full h-[70px] ${
               index % 2 === 0 ? "bg-[#74FFE3]" : "bg-[#A2FFEC]"
             } ${deletingId === note.id ? "pointer-events-none" : ""}`}
@@ -88,7 +91,10 @@ const NotesList = () => {
             <button className="flex items-center justify-end mr-3 h-full ">
               <MdDelete
                 size={30}
-                onClick={() => handleDelete(note.id)}
+                onClick={(e) => {
+                  e.stopPropagation(); // prevent navigating when delete is clicked
+                  handleDelete(note.id);
+                }}
                 className="cursor-pointer text-black hover:text-red-500"
               />
             </button>
